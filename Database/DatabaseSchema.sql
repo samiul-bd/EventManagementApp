@@ -3,15 +3,19 @@ GO
 
 /****** Object:  Database EventManagement     ******/
 IF DB_ID('EventManagement') IS NOT NULL
+ALTER DATABASE EventManagement
+SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
 	DROP DATABASE EventManagement
+  print 'Database dropped'
 GO
 
 CREATE DATABASE EventManagement
-GO 
-
-USE [EventManagement]
 GO
+Print 'Database created' 
 
+USE EventManagement
+GO
+print 'Using EventManagement'
 
 CREATE TABLE Clients
 (
@@ -20,14 +24,14 @@ CompanyName VARCHAR (100) NULL,
 Email VARCHAR (100) NOT NULL,
 Phone VARCHAR (13) NOT NULL
 )
-
+print 'Client table created'
 
 CREATE TABLE Events
 (  
 Id INT PRIMARY KEY NOT NULL,
 [EventName] VARCHAR (30) NOT NULL,
 ClientsId INT FOREIGN KEY REFERENCES Clients(Id) NOT NULL, --O
-EventType TEXT CHECK( EventType IN('Conference','Wedding','Concert','Party','Seminar','Other'))
+EventType VARCHAR (100)
 )
 
 
@@ -69,8 +73,7 @@ ItemName VARCHAR(100),
 Category VARCHAR(50),
 EstimatedCost DECIMAL(10,2),
 ActualCost DECIMAL(10,2),
-payment_status TEXT CHECK(payment_status IN ('Pending', 'Paid', 'Partially Paid')),
-Payment_date DATE,
+PaymentDate DATE,
 Notes TEXT
 )
 
